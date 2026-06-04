@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th=http://www.thymeleaf.org>
+<head>
+<meta charset="UTF-8">
+<title>メニュー一覧画面</title>
+<link rel="stylesheet" th:href="@{/css/gemini.css}">
+</head>
+<body>
+	<div class="container">
+		<table class="ec-table">
+			<thead>
+				<tr>
+					<th>商品名</th>
+					<th>商品価格</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="menu : ${menus}" th:object="${menu}">
+					<td th:text="*{commodityName}"></td>
+					<td th:text="*{price}"></td>
+					<td>
+						<form th:action="@{/cart/add}" method="post">
+							<input type="hidden" name="id" th:value="*{id}">
+							<button type="submit" class="btn btn-primary">カートに追加する</button>
+						</form>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="nav-links">
+			<a th:href="@{/cart/list}" class="link-item">カートを見る</a> &emsp;
+			<a th:href="@{/cart/clear}" class="link-item link-clear">カートの商品をクリアする</a>
+		</div>
+	</div>
+</body>
+</html>
