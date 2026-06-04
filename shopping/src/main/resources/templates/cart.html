@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th=http://www.thymeleaf.org>
+
+<head>
+	<meta charset="UTF-8">
+	<title>カート一覧画面</title>
+	<link rel="stylesheet" th:href="@{/css/gemini.css}">
+</head>
+
+<body>
+	<script src="/jquery/jquery-1.11.3.js"></script>
+	<div class="container">
+		<table class="ec-table">
+			<thead>
+				<tr>
+					<th>商品名</th>
+					<th>単価</th>
+					<th>個数</th>
+					<th>小計</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="order : ${orders}" th:object="${order}">
+					<td th:text="*{menu.commodityName}">
+					</td>
+					<td th:text="*{menu.price}">
+					</td>
+					<td>
+						<select class="quantities">
+							<option th:each="i : ${#numbers.sequence(1,50)}" 
+									th:text="${i}"
+									th:value="${i}"
+									th:selected="${i == order.quantity}">
+							</option>
+						</select>
+					</td>
+					<td class="subtotal" th:text="*{menu.price * quantity}"></td>
+					<td>
+						<button type="submit" form="delete" name="commodityId" class="btn btn-danger delete-btn" th:value="*{commodityId}">削除</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	
+	<form id="update" th:action="@{/cart/update}" method="post">
+		<input type="hidden" id="form-commodityId" name="commodityId">
+		<input type="hidden" id="form-change-quantity" name="quantity">
+	</form>
+	
+	<form id="delete" th:action="@{/cart/delete}" method="post">
+	</form>
+
+	<div class="total-box">
+		合計金額：<span id="total" class="total-price">0円</span>
+	</div>
+	<div class="nav-links">
+		<a th:href="@{/menu/list}" class="link-item">メニュー一覧</a> &emsp;
+		<a th:href="@{/cart/data-regist}" class="link-item">確定</a> &emsp;
+		<a th:href="@{/cart/purchase}" class="link-item">購入</a>
+	</div>
+	</div>
+	<script>
+		$(function(){
+			
+			// 各商品の小計リストを取得、sumに繰り返し値を加算 → 合計金額タグに適用
+			let sum = 0;
+			$(".subtotal").each(function () {
+				let subtotal = $(this).text();
+
+				sum += parseInt(subtotal);
+			});
+
+			$("#total").text(sum + "円");
+			
+			// セレクトタグの値が変更された場合、変更後の値をinputタグにセットしてformタグを作動させる
+			$("tbody tr").each(function(){
+				let tr = $(this);
+				
+				tr.find("select").change(function(){
+					let changeQuantity = $(this).val();
+					let commodityId = tr.find(".delete-btn").val();
+					
+					$("#form-commodityId").val(commodityId);
+					$("#form-change-quantity").val(changeQuantity);
+					$("#update").submit();
+				});
+			});
+			
+			$(".link-item").eq(1).click(function(){
+				alert("カート情報を保存しました")
+			});
+			
+			$(".link-item").eq(2).click(function(){
+				var result = confirm("カート内の商品を購入します");
+				
+				if(result){
+					$("#status").text("ご購入ありがとうございます！！");
+					
+				}else{
+					$("#status").text("購入キャンセル・・ですか・・")
+				}
+			});
+		});
+	</script>
+</body>
+
+</html>
