@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th=http://www.thymeleaf.org>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>メニュー一覧画面</title>
 <link rel="stylesheet" th:href="@{/css/gemini.css}">
 </head>
 <body>
+	<script src="/jquery/jquery-1.11.3.js"></script>
 	<div class="container">
 		<table class="ec-table">
 			<thead>
@@ -28,10 +29,25 @@
 				</tr>
 			</tbody>
 		</table>
+		
 		<div class="nav-links">
-			<a th:href="@{/cart/list}" class="link-item">カートを見る</a> &emsp;
-			<a th:href="@{/cart/clear}" class="link-item link-clear">カートの商品をクリアする</a>
+			<a th:href="@{/cart/list}" class="btn btn-secondary link-item">カートを見る</a>
+			<a th:href="@{/cart/clear}" id="clear" class="btn btn-clear link-item link-clear">カートの商品をクリアする</a>
 		</div>
 	</div>
+	<script>
+		$(function(){
+			$("#clear").click(function(){
+				const result = confirm("本当にカート内を削除しますか？");
+				
+				if(result){
+					alert("削除しました");
+				}else{
+					alert("キャンセルします");
+					return false;
+				}
+			})
+		});
+	</script>
 </body>
 </html>

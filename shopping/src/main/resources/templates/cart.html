@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th=http://www.thymeleaf.org>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8">
@@ -54,12 +54,14 @@
 	<div class="total-box">
 		合計金額：<span id="total" class="total-price">0円</span>
 	</div>
+	
 	<div class="nav-links">
-		<a th:href="@{/menu/list}" class="link-item">メニュー一覧</a> &emsp;
-		<a th:href="@{/cart/data-regist}" class="link-item">確定</a> &emsp;
-		<a th:href="@{/cart/purchase}" class="link-item">購入</a>
+		<a th:href="@{/menu/list}" class="btn btn-secondary link-item">メニュー一覧</a>
+		<a th:href="@{/cart/data-regist}" class="btn btn-primary link-item">確定</a>
+		<a th:href="@{/cart/purchase}" class="btn btn-primary link-item">購入</a>
 	</div>
 	</div>
+	
 	<script>
 		$(function(){
 			
@@ -95,10 +97,11 @@
 				var result = confirm("カート内の商品を購入します");
 				
 				if(result){
-					$("#status").text("ご購入ありがとうございます！！");
+					alert("ご購入ありがとうございます！！");
 					
 				}else{
-					$("#status").text("購入キャンセル・・ですか・・")
+					alert("購入キャンセル・・ですか・・?")
+					return false;
 				}
 			});
 		});

@@ -6,8 +6,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.shopping.dto.CartDto;
 import com.example.shopping.dto.MenuDto;
@@ -86,14 +84,14 @@ public class CartService {
 	}
 	
 	/**
-	 * カート情報をリスト単位でDB登録
+	 * カート情報をDBへ更新
 	 * @param dtoList
 	 */
-	public void addList(List<CartDto> dtoList) {
+	public void updateCart(List<CartDto> dtoList) {
 		List<CartEntity> entityList = convertFromDtoToEntity(dtoList);
 		
 		entityList.stream().forEach(entity -> {
-			add(entity.getCommodityId());
+			cartRepository.save(entity);
 		});
 	}
 	
@@ -113,9 +111,7 @@ public class CartService {
 		cartRepository.deleteAll();
 	}
 	
-	@PostMapping("/cart/change")
-	public void changeQuantity(@RequestParam(name="commodityId") Integer commodityId,
-			@RequestParam(name="quantity") Integer quantity) {
+	public void changeQuantity(Integer commodityId, Integer quantity) {
 		
 		Optional<CartEntity> op = cartRepository.findById(commodityId);
 		

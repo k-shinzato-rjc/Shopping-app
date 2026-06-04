@@ -104,3 +104,31 @@ h1 {
     text-align: right;
     font-size: 2.2rem;
     font-weight: bold;
+    margin-bottom: 30px;
+}
+
+/* --- 追加：下部ナビゲーション・ボタン用スタイル --- */
+.nav-links {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.btn-secondary {
+    background-color: #64748b;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #475569;
+}
+
+.btn-clear {
+    background-color: #ef4444;
+    color: white;
+}
+
+.btn-clear:hover {
+    background-color: #dc2626;
+}
