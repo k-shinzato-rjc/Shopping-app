@@ -2,6 +2,8 @@ package com.example.shopping.controller;
 
 import java.util.List;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -114,16 +116,17 @@ public class ShoppingController {
 	}
 	
 	/**
-	 * カート内確定ボタンを押下 → カート内商品をリスト単位で一括DB登録
+	 * カート内確定ボタンを押下 → カート内商品をDBに反映させる
 	 * @author koki_shinzato
 	 * 
 	 * @param modelmap
 	 * @return カート一覧画面
 	 */
 	@GetMapping("/cart/data-regist")
-	public String cartRegist(ModelMap modelmap) {
+	public String updateCart(HttpSession httpSession) {
 		
-		cartService.addList(cartService.convertFromFormToDto((List<CartForm>)modelmap.get("orders")));
+		cartService.deleteAll();
+		cartService.updateCart(cartService.convertFromFormToDto((List<CartForm>) httpSession.getAttribute("orders")));
 		
 		return "redirect:/cart/list";
 	}

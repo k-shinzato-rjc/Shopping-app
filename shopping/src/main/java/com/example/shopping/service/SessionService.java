@@ -16,10 +16,8 @@ public class SessionService {
 	// 指定されたセッションデータ（カート情報）の数量を変更
 	public List<CartDto> sessionQuantities(List<CartDto> sessionOrders, Integer commodityId, Integer quantity) {
 		
-		List<CartDto> changeOrders = sessionOrders;
+		sessionOrders.stream().filter(order -> order.getCommodityId() == commodityId).forEach(order -> order.setQuantity(quantity));
 		
-		changeOrders.stream().filter(order -> order.getCommodityId() == commodityId).forEach(order -> order.setQuantity(quantity));
-		
-		return changeOrders;
+		return sessionOrders;
 	}
 }
